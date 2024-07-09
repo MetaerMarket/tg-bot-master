@@ -13,6 +13,12 @@ var (
 	version = "aio version: aio/1.25.18"
 )
 
+type helloHandler struct{}
+
+func (h *helloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello, world!"))
+}
+
 func main() {
 	log.SetFlags(log.Lshortfile | log.Ldate | log.Lmicroseconds)
 	log.SetOutput(os.Stdout)
@@ -27,9 +33,15 @@ func main() {
 		if err := recover(); err != nil {
 			log.Printf("Runtime panic caught: %v\n", err)
 		}
+		log.Println("end")
 	}()
+
 	go func() {
-		http.ListenAndServe("localhost:6060", nil)
+		log.Println("ListenAndServe start")
+		http.Handle("/", &helloHandler{})
+		http.ListenAndServe(":6060", nil)
 	}()
+
 	config.Load(*path)
+
 }
