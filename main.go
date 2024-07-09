@@ -7,11 +7,13 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+	"sync"
 )
 
 var (
 	version = "aio version: aio/1.25.18"
 )
+var wg sync.WaitGroup
 
 type helloHandler struct{}
 
@@ -36,12 +38,12 @@ func main() {
 		log.Println("end")
 	}()
 
+	wg.Add(1) //计数器+1
 	go func() {
 		log.Println("ListenAndServe start")
 		http.Handle("/", &helloHandler{})
 		http.ListenAndServe(":6060", nil)
 	}()
-
 	config.Load(*path)
-
+	wg.Wait()
 }
