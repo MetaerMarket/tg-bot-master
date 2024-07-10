@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/MetaerMarket/tg-bot-master/config"
+	"github.com/MetaerMarket/tg-bot-master/tg"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
@@ -38,12 +39,13 @@ func main() {
 		log.Println("end")
 	}()
 
-	wg.Add(1) //计数器+1
+	//wg.Add(1) //计数器+1
 	go func() {
 		log.Println("ListenAndServe start")
 		http.Handle("/", &helloHandler{})
 		http.ListenAndServe(":6060", nil)
 	}()
 	config.Load(*path)
-	wg.Wait()
+	//wg.Wait()
+	tg.Server()
 }
