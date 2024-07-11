@@ -137,6 +137,7 @@ func (t *Crypto) FuturesPrice(name string) (prices string) {
 }
 
 // 前3根k线的涨跌结果,1 涨 -1 跌
+
 func (t *Crypto) UFutureKline(interval string, limit int, symbol string) []int {
 	url := fmt.Sprintf("https://fapi.binance.com/fapi/v1/klines?symbol=%s&interval=%s&limit=%d", symbol, interval, limit)
 
