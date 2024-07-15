@@ -40,11 +40,12 @@ func main() {
 	}()
 
 	//wg.Add(1) //计数器+1
-	go func() {
-		log.Println("ListenAndServe start")
-		http.Handle("/", &helloHandler{})
-		http.ListenAndServe(":6060", nil)
-	}()
+	//go func() {
+	//	log.Println("ListenAndServe start")
+	//	http.Handle("/", &helloHandler{})
+	//	http.ListenAndServe(":6060", nil)
+	//}()
+
 	config.Load(*path)
 	//wg.Wait()
 	tg.Server()
